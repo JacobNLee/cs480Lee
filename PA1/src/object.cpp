@@ -1,4 +1,8 @@
 #include "object.h"
+#include <iostream>
+
+#define ORBITAL_SPEED_RATIO .5
+#define ORBIT_R 5
 
 Object::Object()
 {  
@@ -79,8 +83,18 @@ Object::~Object()
 
 void Object::Update(unsigned int dt)
 {
+  
   angle += dt * M_PI/1000;
-  model = glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 0.0));
+  model = glm::translate( glm::mat4(1.0f),  
+                          glm::vec3(
+                            ORBIT_R * cos( angle * ORBITAL_SPEED_RATIO  ),
+                            0.0,
+                            ORBIT_R * sin( angle * ORBITAL_SPEED_RATIO) ));
+                            
+  model = glm::rotate(model, (angle), glm::vec3(0.0, 1.0, 0.0));
+  
+  
+  
 }
 
 glm::mat4 Object::GetModel()

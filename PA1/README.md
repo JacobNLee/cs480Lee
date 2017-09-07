@@ -13,9 +13,6 @@ sudo apt-get install libglew-dev libglm-dev libsdl2-dev
 ```
 
 ### Use cmake to make this project
-```cmake
-COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/shaders/ ${CMAKE_CURRENT_BINARY_DIR}/shaders
-```
 
 ```bash
 mkdir build
@@ -24,5 +21,16 @@ cmake ..
 make
 ./PA1 --Help
 ```
+running 
+```bash
+./PA1 --Help
+```
+will help
 
+If I did a horrible with a that run it like this.
+```bash
+./Tutorial --v ../shaders/330.vert --f ../shaders/330.frag
+```
+
+The shaders are in the shader file
 

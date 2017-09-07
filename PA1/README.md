@@ -12,7 +12,7 @@ This project uses OpenGL 3.3. Some computers, such as virtual machines in the EC
 sudo apt-get install libglew-dev libglm-dev libsdl2-dev
 ```
 
-###Use cmake to make this project
+### Use cmake to make this project
 ```cmake
 COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/shaders/ ${CMAKE_CURRENT_BINARY_DIR}/shaders
 ```

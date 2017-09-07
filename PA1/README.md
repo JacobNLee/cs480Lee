@@ -27,10 +27,10 @@ running
 ```
 will help
 
-If I did a horrible with a that run it like this.
+If I did a horrible job with that, run it like this.
 ```bash
 ./Tutorial --v ../shaders/330.vert --f ../shaders/330.frag
 ```
 
-The shaders are in the shader file
+The shaders are in the shader folder
 

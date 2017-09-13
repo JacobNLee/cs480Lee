@@ -1,10 +1,10 @@
 ### The buttons 
-
+```bash
 A : Will start and stop the orbit
 S : Will start and stop the rotaion 
 Left CLick : Will reverse and resume the orbit 
 Right Click: Will reverse and resume the rotaion
-
+```
 
 ### Use cmake to make this project
 

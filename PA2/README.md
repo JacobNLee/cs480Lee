@@ -1,3 +1,34 @@
+### The buttons 
+
+A : Will start and stop the orbit
+S : Will start and stop the rotaion 
+Left CLick : Will reverse and resume the orbit 
+Right Click: Will reverse and resume the rotaion
+
+
+### Use cmake to make this project
+
+```bash
+mkdir build
+cd build
+cmake ..
+make
+./PA2 --Help
+```
+running 
+```bash
+./PA2 --Help
+```
+will help
+
+If I did a horrible job with that, run it like this.
+```bash
+./PA2 --v ../shaders/330.vert --f ../shaders/330.frag
+```
+
+The shaders are in the shader folder
+
+
 # PA1: Spinning Cube
 
 # Dependencies, Building, and Running
@@ -12,25 +43,5 @@ This project uses OpenGL 3.3. Some computers, such as virtual machines in the EC
 sudo apt-get install libglew-dev libglm-dev libsdl2-dev
 ```
 
-### Use cmake to make this project
 
-```bash
-mkdir build
-cd build
-cmake ..
-make
-./PA1 --Help
-```
-running 
-```bash
-./PA1 --Help
-```
-will help
-
-If I did a horrible job with that, run it like this.
-```bash
-./Tutorial --v ../shaders/330.vert --f ../shaders/330.frag
-```
-
-The shaders are in the shader folder
 

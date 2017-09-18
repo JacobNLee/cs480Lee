@@ -18,9 +18,9 @@ class Graphics
     void Update(unsigned int dt);
     void Render();
 
+    Object* getCube();
 
-    Object *m_cube;
-    Object *m_cube2;
+    
   private:
     std::string ErrorString(GLenum error);
 
@@ -31,6 +31,9 @@ class Graphics
     GLint m_viewMatrix;
     GLint m_modelMatrix;
     GLint m_modelMatrix2;
+
+    Object *m_cube;
+    
 
     
 };

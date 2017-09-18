@@ -148,3 +148,52 @@ void Object::Render()
   glDisableVertexAttribArray(1);
 }
 
+void Object::invertOrbitRev()
+{
+  if( orbit_rev == 0 )
+      {
+        orbit_rev = 1;
+      }
+      else
+      {
+        orbit_rev = 0;
+      }
+}
+
+void Object::invertOrbitStop()
+{
+  if( orbit_stop == 0 )
+      {
+        orbit_stop = 1;
+      }
+      else
+      {
+        orbit_stop = 0;
+      }
+}
+
+void Object::invertRotRev()
+{
+  if( rot_rev == 0 )
+      {
+        rot_rev = 1;
+      }
+      else
+      {
+        rot_rev = 0;
+      }
+}
+
+void Object::invertRotStop()
+{
+  if( rot_stop == 0 )
+      {
+        rot_stop = 1;
+      }
+      else
+      {
+        rot_stop = 0;
+      }
+}
+
+

@@ -46,7 +46,6 @@ bool Graphics::Initialize(int width, int height, string shaders[])
 
   // Create the object
   m_cube = new Object();
-  m_cube2 = new Object();
 
   // Set up the shaders
   m_shader = new Shader();
@@ -119,7 +118,6 @@ void Graphics::Update(unsigned int dt)
 {
   // Update the object
   m_cube->Update(dt);
-  //m_cube2->Update(dt);
 }
 
 void Graphics::Render()
@@ -137,9 +135,9 @@ void Graphics::Render()
 
   // Render the object
   glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_cube->GetModel()));
-  glUniformMatrix4fv(m_modelMatrix2, 1, GL_FALSE, glm::value_ptr(m_cube2->GetModel()));
-  //m_cube->Render();
-  m_cube2->Render();
+
+  m_cube->Render();
+
 
   // Get any errors from OpenGL
   auto error = glGetError();
@@ -182,3 +180,8 @@ std::string Graphics::ErrorString(GLenum error)
   }
 }
 
+
+Object* Graphics::getCube()
+{
+  return m_cube;
+}

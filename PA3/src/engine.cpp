@@ -95,27 +95,13 @@ void Engine::Keyboard()
     //This stops/starts the orbit of the cube
     else if( m_event.key.keysym.sym == SDLK_a )
     {
-      if( m_graphics->m_cube->orbit_stop == 0 )
-      {
-        m_graphics->m_cube->orbit_stop = 1;
-      }
-      else
-      {
-        m_graphics->m_cube->orbit_stop = 0;
-      }
+      m_graphics->getCube()->invertOrbitStop();
     }
 
     //This stops/starts the rotation of the cube
     else if( m_event.key.keysym.sym == SDLK_s )
     {
-      if( m_graphics->m_cube->rot_stop == 0 )
-      {
-        m_graphics->m_cube->rot_stop = 1;
-      }
-      else
-      {
-        m_graphics->m_cube->rot_stop = 0;
-      }
+      m_graphics->getCube()->invertRotStop();
     }
   }
 
@@ -125,27 +111,13 @@ void Engine::Keyboard()
     //This reverses/resumes the orbit of the cube
     if( m_event.button.button == SDL_BUTTON_LEFT )
     {
-      if( m_graphics->m_cube->orbit_rev == 0 )
-      {
-        m_graphics->m_cube->orbit_rev = 1;
-      }
-      else
-      {
-        m_graphics->m_cube->orbit_rev = 0;
-      }
+      m_graphics->getCube()->invertOrbitRev();
     }
 
     //This reverses/resumes the rotation of the cube
     if( m_event.button.button == SDL_BUTTON_RIGHT )
     {
-      if( m_graphics->m_cube->rot_rev == 0 )
-      {
-        m_graphics->m_cube->rot_rev = 1;
-      }
-      else
-      {
-        m_graphics->m_cube->rot_rev = 0;
-      }
+      m_graphics->getCube()->invertRotRev();
     }
   }
 

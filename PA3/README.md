@@ -13,17 +13,17 @@ mkdir build
 cd build
 cmake ..
 make
-./PA2 --Help
+./PA3 --Help
 ```
 running 
 ```bash
-./PA2 --Help
+./PA3 --Help
 ```
 will help
 
 If I did a horrible job with that, run it like this.
 ```bash
-./PA2 --v ../shaders/330.vert --f ../shaders/330.frag
+./PA3 --v ../shaders/passthrough.vert --f ../shaders/passthrough.frag
 ```
 
 The shaders are in the shader folder

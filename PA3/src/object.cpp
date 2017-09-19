@@ -205,10 +205,10 @@ glm::vec2 Object::getOrigin()
 
 void Object::rotateLeft()
 {
-  rot_rev = true;
+  rot_rev = false;
 }
 
 void Object::rotateRight()
 {
-  rot_rev = false;
+  rot_rev = true;
 }

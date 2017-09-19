@@ -20,11 +20,11 @@ cmake ..
 make
 ./PA3 --Help
 ```
-running 
+running will help 
 ```bash
 ./PA3 --Help
 ```
-will help
+
 
 I added a bash file to make running the program with the provided shaders quicker. The file is called run.sh and is the root dir.
 ```bash

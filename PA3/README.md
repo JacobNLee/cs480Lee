@@ -4,6 +4,11 @@ A : Will start and stop the orbit
 S : Will start and stop the rotaion 
 Left CLick : Will reverse and resume the orbit 
 Right Click: Will reverse and resume the rotaion
+Left Arrow Key: Will set the planet to counterclockwise rotaion
+Right Arrow Key: Will set the planet to clockwise rotation.
+
+
+ESC : Will end the program
 ```
 
 ### Use cmake to make this project
@@ -15,12 +20,17 @@ cmake ..
 make
 ./PA3 --Help
 ```
-running 
+running will help 
 ```bash
 ./PA3 --Help
 ```
-will help
 
+
+I added a bash file to make running the program with the provided shaders quicker. The file is called run.sh and is the root dir.
+```bash
+cp ../run.sh run.sh
+./run.sh
+```
 If I did a horrible job with that, run it like this.
 ```bash
 ./PA3 --v ../shaders/passthrough.vert --f ../shaders/passthrough.frag
@@ -29,7 +39,7 @@ If I did a horrible job with that, run it like this.
 The shaders are in the shader folder
 
 
-# PA1: Spinning Cube
+# PA3: Spinning Moons
 
 # Dependencies, Building, and Running
 

@@ -39,7 +39,7 @@ If I did a horrible job with that, run it like this.
 The shaders are in the shader folder
 
 
-# PA1: Spinning Cube
+# PA3: Spinning Moons
 
 # Dependencies, Building, and Running
 

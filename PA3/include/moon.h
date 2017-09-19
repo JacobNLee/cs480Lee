@@ -9,7 +9,7 @@ class Moon
   public:
     Moon();
     ~Moon();
-    void Update(unsigned int dt);
+    void Update(unsigned int dt, glm::vec2 origin );
     void Render();
 
     void invertOrbitRev();

@@ -119,7 +119,8 @@ void Graphics::Update(unsigned int dt)
 {
   // Update the object
   m_cube->Update(dt);
-  m_moon->Update(dt);
+
+  m_moon->Update(dt, m_cube->getOrigin() );
 }
 
 void Graphics::Render()

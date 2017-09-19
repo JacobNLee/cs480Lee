@@ -16,6 +16,11 @@ class Object
     void invertOrbitStop();
     void invertRotRev();
     void invertRotStop();
+
+    void rotateLeft();
+    void rotateRight();
+
+    glm::vec2 getOrigin();
     
     
 
@@ -34,7 +39,9 @@ class Object
     bool orbit_rev;
     bool rot_rev;
     bool orbit_stop;
-    bool rot_stop;   
+    bool rot_stop;
+
+    glm::vec2 origin;   
 };
 
 #endif /* OBJECT_H */

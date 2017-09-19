@@ -114,11 +114,13 @@ void Object::Update(unsigned int dt)
     }
   }
 
+  origin.x = ORBIT_R * cos( angle_orbit * ORBITAL_SPEED_RATIO  );
+  origin.y = ORBIT_R * sin( angle_orbit * ORBITAL_SPEED_RATIO  );
   model = glm::translate( glm::mat4(1.0f),  
                           glm::vec3(
-                            ORBIT_R * cos( angle_orbit * ORBITAL_SPEED_RATIO  ),
+                            origin.x,
                             0.0,
-                            ORBIT_R * sin( angle_orbit * ORBITAL_SPEED_RATIO) ));
+                            origin.y));
                             
   model = glm::rotate(model, (angle_rot), glm::vec3(0.0, 1.0, 0.0));
   
@@ -196,4 +198,17 @@ void Object::invertRotStop()
       }
 }
 
+glm::vec2 Object::getOrigin()
+{
+  return origin;
+}
 
+void Object::rotateLeft()
+{
+  rot_rev = true;
+}
+
+void Object::rotateRight()
+{
+  rot_rev = false;
+}

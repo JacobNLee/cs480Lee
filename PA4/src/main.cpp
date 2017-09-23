@@ -14,6 +14,7 @@ int main(int argc, char **argv)
   int index;
 
   string shaders[ 2 ];
+  string model;
   
   for( index = 1; index < argc; index += 2 )
   {
@@ -41,6 +42,14 @@ int main(int argc, char **argv)
         "Below is the format of how each shader file should look." << std::endl <<"They can be in any order" << std::endl <<  std::endl <<
         "--v <vetex shader file name >" << std::endl <<"--f <fragment shader file name >" << endl;
         return 0;
+      }
+      else if( !strcmp( argv[ index ], "--m") || !strcmp( argv[ index ], "--M"))
+      { 
+
+        model = argv[ index + 1 ];
+
+        model = file2string( model );
+
       }
       else
       {

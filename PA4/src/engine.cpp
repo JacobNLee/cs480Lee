@@ -150,3 +150,8 @@ long long Engine::GetCurrentTimeMillis()
   long long ret = t.tv_sec * 1000 + t.tv_usec / 1000;
   return ret;
 }
+
+void Engine::loadModel( std::string model )
+{
+  m_graphics->getCube()->loadModel( model );
+}

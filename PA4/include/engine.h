@@ -13,6 +13,8 @@ class Engine
     Engine(string name, int width, int height);
     Engine(string name);
     ~Engine();
+
+    void loadModel(std::string model);
     bool Initialize(string shaders[]);
     void Run();
     void Keyboard();

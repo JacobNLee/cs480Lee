@@ -12,6 +12,8 @@ class Object
     void Update(unsigned int dt);
     void Render();
 
+    void loadModel( std::string model );
+
     void invertOrbitRev();
     void invertOrbitStop();
     void invertRotRev();

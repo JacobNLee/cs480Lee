@@ -60,6 +60,7 @@ int main(int argc, char **argv)
 
   }
 
+
   if( shaders[ 0 ] == "" || shaders[ 1 ] == "")
   {
     std::cout << "Error loading shaders, Ending the program" << std::endl;
@@ -68,6 +69,9 @@ int main(int argc, char **argv)
 
   // Start an engine and run it then cleanup after
   Engine *engine = new Engine("Tutorial Window Name", 800, 600);
+
+  engine->loadModel( model );
+  
   if(!engine->Initialize( shaders ))
   {
     printf("The engine failed to start.\n");

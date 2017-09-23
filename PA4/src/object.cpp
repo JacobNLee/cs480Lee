@@ -1,8 +1,10 @@
 #include "object.h"
 #include <iostream>
+#include <sstream>
 
 #define ORBITAL_SPEED_RATIO .5
 #define ORBIT_R 5
+
 
 Object::Object()
 {  
@@ -30,7 +32,7 @@ Object::Object()
     f 3 2 7
     f 3 7 4
     f 5 1 8
-  */
+  
 
   Vertices = {
     {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f}},
@@ -57,13 +59,20 @@ Object::Object()
     3, 7, 4,
     5, 1, 8
   };
+  
 
+  std::cout << Indices[0] << std::endl;
+  std::cout << Vertices[0].vertex[1] << std::endl;
+  */
+
+
+  
   // The index works at a 0th index
-  for(unsigned int i = 0; i < Indices.size(); i++)
+  //for(unsigned int i = 0; i < Indices.size(); i++)
   {
-    Indices[i] = Indices[i] - 1;
+    //Indices[i] = Indices[i] - 1;
   }
-
+  Indices.push_back(1);
   angle_orbit = 0.0f;
   angle_rot = 0.0f;
 
@@ -71,6 +80,9 @@ Object::Object()
   rot_rev = false;
   orbit_stop = false;
   rot_stop = false;
+
+  this->Indices.resize( 50 );
+  
 
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -80,6 +92,51 @@ Object::Object()
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
 }
+
+void Object::loadModel( std::string model )
+{
+  std::istringstream stringStream( model );
+  std::string tempLine;
+
+  unsigned int x = 1;
+
+
+
+  //cout << Indices.size() << endl;
+  //cout << Indices[0] << endl;
+  //cout << Indices[1] << endl;
+  //cout << Indices[2] << endl;
+  this->Indices.push_back(0);
+
+  while(stringStream.good())
+  {
+    std::getline( stringStream,tempLine );
+    
+    if( tempLine[0] == 'v' && tempLine[1] != 'n' )
+    {
+      
+    }
+    else if( tempLine[0] == 'f' )
+    {
+       
+       
+    }
+    else if( tempLine[0] == 'v')
+    {
+
+    }
+  }
+  //glGenBuffers(1, &VB);
+  //glBindBuffer(GL_ARRAY_BUFFER, VB);
+  //glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
+
+  //glGenBuffers(1, &IB);
+  //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+  //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
+
+  
+}
+
 
 Object::~Object()
 {
@@ -212,3 +269,4 @@ void Object::rotateRight()
 {
   rot_rev = true;
 }
+

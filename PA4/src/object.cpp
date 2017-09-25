@@ -99,16 +99,11 @@ void Object::loadModel( std::string model )
 {
   std::istringstream stringStream( model );
   std::string tempLine;
-  std::string tempLine2;
-  std::vector<Vertex> Vertices;
-  std::vector<unsigned int> Indices;
-
-
+  std::string tempSegment;
+  
   int index;
-  //std::cout << Indices[0] << std::endl << std::endl;
-  //std::cin >> x;
-  //test[ 0 ] = 1;
-  int i;
+  double x,y,z;
+  char ignore;
 
   while(stringStream.good())
   {
@@ -117,30 +112,46 @@ void Object::loadModel( std::string model )
 
     if( tempLine[0] == 'v' && tempLine[1] != 'n' )
     {
+      std::istringstream tempStream( tempLine );
+      
+      tempStream >> ignore >> x >> y >> z;
 
+      Vertices.push_back( {{x, y, z}, {x, y, z}} );
     }
     else if( tempLine[0] == 'f' )
     {
       std::istringstream tempStream( tempLine );
-      std::getline( tempStream, tempLine2, ' ');
+      std::getline( tempStream, tempSegment, ' ');
+
       for( index = 0; index < 3; index++ )
       {
         
+        
+        std::getline( tempStream, tempSegment, ' ');
+        Indices.push_back( atoi( tempSegment.c_str() ) );
+        /*
+        std::getline( tempStream, tempSegment, '/');
+        
 
-        std::getline( tempStream, tempLine2, '/');
-        std::cout << tempLine2 << ' ';
-        std::getline( tempStream, tempLine2, '/');
-        if( tempLine2[0] == '\0')
+        if( tempSegment.length() == 0)
         {
-          Indices.push_back( 0 );
+          UV.push_back( 0 );
         }
         else
         {
-          cout << 0 << ' ';
+          UV.push_back( atoi ( tempSegment.c_str() ) );
         }
-        std::getline( tempStream, tempLine2, ' ');
-        std::cout << tempLine2 << std::endl;
 
+        std::getline( tempStream, tempSegment, ' ');
+        if( tempSegment.length() == 0)
+        {
+          Normals.push_back( 0 );
+        }
+        else
+        {
+          Normals.push_back( atoi ( tempSegment.c_str() ) );
+        }
+        */
         
       }
        
@@ -149,19 +160,23 @@ void Object::loadModel( std::string model )
     {
 
     }
+
   }
 
-  //glGenBuffers(1, &VB);
-  //glBindBuffer(GL_ARRAY_BUFFER, VB);
-  //glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
+  Indices.push_back(0);
+  for(unsigned int i = 0; i < Indices.size(); i++)
+  {
+    Indices[i] = Indices[i] - 1;
+  }
 
-  //glGenBuffers(1, &IB);
-  //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-  //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
-  test = Indices;
+  glGenBuffers(1, &VB);
+  glBindBuffer(GL_ARRAY_BUFFER, VB);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
 
-  Vertices.clear();
-  Indices.clear();
+  glGenBuffers(1, &IB);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
+  
 
   
 }
@@ -169,8 +184,8 @@ void Object::loadModel( std::string model )
 
 Object::~Object()
 {
-  //Vertices.clear();
-  //Indices.clear();
+  Vertices.clear();
+  Indices.clear();
 }
 
 void Object::Update(unsigned int dt)
@@ -221,7 +236,7 @@ glm::mat4 Object::GetModel()
 
 void Object::Render()
 { 
-  /*
+  
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
 
@@ -235,7 +250,7 @@ void Object::Render()
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
-  */
+  
 }
 
 void Object::invertOrbitRev()

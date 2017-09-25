@@ -33,12 +33,14 @@ class Object
   private:
     glm::mat4 model;
     
+    std::vector<Vertex> Vertices;
+    std::vector<unsigned int> Indices;
+    std::vector<unsigned int> UV;
+    std::vector<unsigned int> Normals;
+
     GLuint VB;
     GLuint IB;
 
-    
-
-    std::vector<unsigned int> test;
 
     float angle_orbit;
     float angle_rot; 

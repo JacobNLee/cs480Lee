@@ -28,12 +28,17 @@ class Object
 
     glm::mat4 GetModel();
 
+
+
   private:
     glm::mat4 model;
-    std::vector<Vertex> Vertices;
-    std::vector<unsigned int> Indices;
+    
     GLuint VB;
     GLuint IB;
+
+    
+
+    std::vector<unsigned int> test;
 
     float angle_orbit;
     float angle_rot; 

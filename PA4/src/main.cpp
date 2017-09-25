@@ -7,7 +7,6 @@
 string file2string( string in );
 
 
-using namespace std;
 
 int main(int argc, char **argv)
 {
@@ -70,8 +69,8 @@ int main(int argc, char **argv)
   // Start an engine and run it then cleanup after
   Engine *engine = new Engine("Tutorial Window Name", 800, 600);
 
-  engine->loadModel( model );
   
+
   if(!engine->Initialize( shaders ))
   {
     printf("The engine failed to start.\n");
@@ -79,6 +78,7 @@ int main(int argc, char **argv)
     engine = NULL;
     return 1;
   }
+  engine->loadModel( model );
   engine->Run();
   delete engine;
   engine = NULL;

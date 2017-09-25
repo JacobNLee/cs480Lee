@@ -1,11 +1,12 @@
 #include "object.h"
 #include <iostream>
 #include <sstream>
+#include <stdlib.h>  
 
 #define ORBITAL_SPEED_RATIO .5
 #define ORBIT_R 5
 
-
+using namespace std;
 Object::Object()
 {  
   /*
@@ -72,7 +73,7 @@ Object::Object()
   {
     //Indices[i] = Indices[i] - 1;
   }
-  Indices.push_back(1);
+  //Indices[0] = 1;
   angle_orbit = 0.0f;
   angle_rot = 0.0f;
 
@@ -81,9 +82,9 @@ Object::Object()
   orbit_stop = false;
   rot_stop = false;
 
-  this->Indices.resize( 50 );
+  //this->Indices.resize( 50 );
   
-
+  /*
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
   glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
@@ -91,34 +92,57 @@ Object::Object()
   glGenBuffers(1, &IB);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
+  */
 }
 
 void Object::loadModel( std::string model )
 {
   std::istringstream stringStream( model );
   std::string tempLine;
+  std::string tempLine2;
+  std::vector<Vertex> Vertices;
+  std::vector<unsigned int> Indices;
 
-  unsigned int x = 1;
 
-
-
-  //cout << Indices.size() << endl;
-  //cout << Indices[0] << endl;
-  //cout << Indices[1] << endl;
-  //cout << Indices[2] << endl;
-  this->Indices.push_back(0);
+  int index;
+  //std::cout << Indices[0] << std::endl << std::endl;
+  //std::cin >> x;
+  //test[ 0 ] = 1;
+  int i;
 
   while(stringStream.good())
   {
-    std::getline( stringStream,tempLine );
+    std::getline( stringStream, tempLine);
     
+
     if( tempLine[0] == 'v' && tempLine[1] != 'n' )
     {
-      
+
     }
     else if( tempLine[0] == 'f' )
     {
-       
+      std::istringstream tempStream( tempLine );
+      std::getline( tempStream, tempLine2, ' ');
+      for( index = 0; index < 3; index++ )
+      {
+        
+
+        std::getline( tempStream, tempLine2, '/');
+        std::cout << tempLine2 << ' ';
+        std::getline( tempStream, tempLine2, '/');
+        if( tempLine2[0] == '\0')
+        {
+          Indices.push_back( 0 );
+        }
+        else
+        {
+          cout << 0 << ' ';
+        }
+        std::getline( tempStream, tempLine2, ' ');
+        std::cout << tempLine2 << std::endl;
+
+        
+      }
        
     }
     else if( tempLine[0] == 'v')
@@ -126,6 +150,7 @@ void Object::loadModel( std::string model )
 
     }
   }
+
   //glGenBuffers(1, &VB);
   //glBindBuffer(GL_ARRAY_BUFFER, VB);
   //glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
@@ -133,6 +158,10 @@ void Object::loadModel( std::string model )
   //glGenBuffers(1, &IB);
   //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
   //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
+  test = Indices;
+
+  Vertices.clear();
+  Indices.clear();
 
   
 }
@@ -140,8 +169,8 @@ void Object::loadModel( std::string model )
 
 Object::~Object()
 {
-  Vertices.clear();
-  Indices.clear();
+  //Vertices.clear();
+  //Indices.clear();
 }
 
 void Object::Update(unsigned int dt)
@@ -191,7 +220,8 @@ glm::mat4 Object::GetModel()
 }
 
 void Object::Render()
-{
+{ 
+  /*
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
 
@@ -205,6 +235,7 @@ void Object::Render()
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
+  */
 }
 
 void Object::invertOrbitRev()

@@ -4,6 +4,12 @@
 #include "engine.h"
 #include <string.h>
 
+
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include <assimp/color4.h>
+
 string file2string( string in );
 
 
@@ -11,6 +17,7 @@ string file2string( string in );
 int main(int argc, char **argv)
 {
   int index;
+
 
   string shaders[ 2 ];
   string model;
@@ -46,7 +53,8 @@ int main(int argc, char **argv)
       { 
 
         model = argv[ index + 1 ];
-
+        Assimp::Importer importer;
+        importer.ReadFile(model, aiProcess_Triangulate);
         model = file2string( model );
 
       }

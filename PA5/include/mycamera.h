@@ -3,7 +3,7 @@
 
 #include "graphics_headers.h"
 
-class Camera
+class MyCamera
 {
   public:
     MyCamera();

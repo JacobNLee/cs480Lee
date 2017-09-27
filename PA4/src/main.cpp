@@ -78,6 +78,7 @@ int main(int argc, char **argv)
     engine = NULL;
     return 1;
   }
+  
   engine->loadModel( model );
   engine->Run();
   delete engine;

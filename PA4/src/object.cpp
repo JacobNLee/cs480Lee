@@ -3,8 +3,8 @@
 #include <sstream>
 #include <stdlib.h>  
 
-#define ORBITAL_SPEED_RATIO .5
-#define ORBIT_R 5
+#define ORBITAL_SPEED_RATIO .1
+#define ORBIT_R 0
 
 using namespace std;
 Object::Object()
@@ -67,13 +67,6 @@ Object::Object()
   */
 
 
-  
-  // The index works at a 0th index
-  //for(unsigned int i = 0; i < Indices.size(); i++)
-  {
-    //Indices[i] = Indices[i] - 1;
-  }
-  //Indices[0] = 1;
   angle_orbit = 0.0f;
   angle_rot = 0.0f;
 
@@ -82,17 +75,6 @@ Object::Object()
   orbit_stop = false;
   rot_stop = false;
 
-  //this->Indices.resize( 50 );
-  
-  /*
-  glGenBuffers(1, &VB);
-  glBindBuffer(GL_ARRAY_BUFFER, VB);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
-
-  glGenBuffers(1, &IB);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
-  */
 }
 
 void Object::loadModel( std::string model )
@@ -104,6 +86,7 @@ void Object::loadModel( std::string model )
   int index;
   double x,y,z;
   char ignore;
+  int numberOfSlashes;
 
   while(stringStream.good())
   {
@@ -125,40 +108,40 @@ void Object::loadModel( std::string model )
 
       for( index = 0; index < 3; index++ )
       {
-        
-        
-        std::getline( tempStream, tempSegment, ' ');
-        Indices.push_back( atoi( tempSegment.c_str() ) );
         /*
-        std::getline( tempStream, tempSegment, '/');
-        
-
-        if( tempSegment.length() == 0)
-        {
-          UV.push_back( 0 );
-        }
-        else
-        {
-          UV.push_back( atoi ( tempSegment.c_str() ) );
-        }
+        Indices
+        UVs
+        Normals
+        */
 
         std::getline( tempStream, tempSegment, ' ');
-        if( tempSegment.length() == 0)
+        numberOfSlashes = getNumberOfSlashes( tempSegment );
+        
+        Indices.push_back( getNumber( tempSegment ));
+
+        if( numberOfSlashes > 0 )
         {
-          Normals.push_back( 0 );
+          UVs.push_back( getNumber( tempSegment ));
+
+          if( numberOfSlashes > 1 )
+          {
+            Normals.push_back( getNumber( tempSegment ));
+          }
+          else
+          {
+            Normals.push_back( 0 );
+          }
         }
         else
         {
-          Normals.push_back( atoi ( tempSegment.c_str() ) );
+          UVs.push_back( 0 );
         }
-        */
+        
+
+
+
         
       }
-       
-    }
-    else if( tempLine[0] == 'v')
-    {
-
     }
 
   }
@@ -169,10 +152,13 @@ void Object::loadModel( std::string model )
     Indices[i] = Indices[i] - 1;
   }
 
+
+  
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
   glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
 
+  
   glGenBuffers(1, &IB);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
@@ -207,11 +193,11 @@ void Object::Update(unsigned int dt)
   {
     if( !rot_rev )
     {
-      angle_rot += dt * M_PI/1000;
+      angle_rot += dt * M_PI/4000;
     }
     else
     {
-      angle_rot -= dt * M_PI/1000;
+      angle_rot -= dt * M_PI/4000;
     }
   }
 
@@ -316,3 +302,36 @@ void Object::rotateRight()
   rot_rev = true;
 }
 
+int Object::getNumberOfSlashes( std::string inString )
+{
+  int index, counter;
+
+  for( index = counter = 0; index < inString.size(); ++index )
+  {
+    if( inString[ index ] == '/' )
+    {
+      counter++;
+    }
+  }
+
+  return counter;
+}
+
+int Object::getNumber( std::string &inString )
+{
+  std::string temp;
+  int index = 0;
+  while( 1 )
+  {
+    if( inString.size() == index || inString[ index ] == '/' )
+    {
+      std::string newString(  inString.begin() + index + 1, inString.end() + 1);
+      //cout << newString << ' ';
+      inString = newString;
+      return atoi( temp.c_str() );
+    }
+
+    temp.push_back( inString[ index ]);
+    index++;
+  }
+}

@@ -35,7 +35,7 @@ class Object
     
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;
-    std::vector<unsigned int> UV;
+    std::vector<unsigned int> UVs;
     std::vector<unsigned int> Normals;
 
     GLuint VB;
@@ -50,7 +50,10 @@ class Object
     bool orbit_stop;
     bool rot_stop;
 
-    glm::vec2 origin;   
+    glm::vec2 origin;
+
+    int getNumberOfSlashes( std::string inString );
+    int getNumber( std::string &inString );
 };
 
 #endif /* OBJECT_H */

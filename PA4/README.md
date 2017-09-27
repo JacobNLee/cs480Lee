@@ -1,8 +1,7 @@
 ### The buttons 
 ```bash
-A : Will start and stop the orbit
+
 S : Will start and stop the rotaion 
-Left CLick : Will reverse and resume the orbit 
 Right Click: Will reverse and resume the rotaion
 Left Arrow Key: Will set the planet to counterclockwise rotaion
 Right Arrow Key: Will set the planet to clockwise rotation.
@@ -18,22 +17,23 @@ mkdir build
 cd build
 cmake ..
 make
-./PA3 --Help
+./PA4 --Help
 ```
 running will help 
 ```bash
-./PA3 --Help
+./PA4 --Help
 ```
 
 
-I added a bash file to make running the program with the provided shaders quicker. The file is called run.sh and is the root dir.
+I added a bash file to make running the program with the provided shaders and models quicker. The file is called run.sh and is the root dir.
 ```bash
 cp ../run.sh run.sh
 ./run.sh
 ```
 If I did a horrible job with that, run it like this.
 ```bash
-./PA3 --v ../shaders/passthrough.vert --f ../shaders/passthrough.frag
+./PA4 --v ../shaders/passthrough.vert --f ../shaders/passthrough.frag --m ../models/cube.obj
+
 ```
 
 The shaders are in the shader folder

@@ -37,9 +37,9 @@ int main(int argc, char **argv)
       {
 
         std::cout << "Two sharder files are requied to run this program." << std::endl <<
-        "There needs to be a vertex shader and a fragment shader" << std::endl << std::endl <<
+        "There needs to be a vertex shader and a fragment shader and a .obj file" << std::endl << std::endl <<
         "Below is the format of how each shader file should look." << std::endl <<"They can be in any order" << std::endl <<  std::endl <<
-        "--v <vetex shader file name >" << std::endl <<"--f <fragment shader file name >" << endl;
+        "--v <vetex shader file name >" << std::endl <<"--f <fragment shader file name >" << endl << "--m <.obj file name>" << endl;
         return 0;
       }
       else if( !strcmp( argv[ index ], "--m") || !strcmp( argv[ index ], "--M"))

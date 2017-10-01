@@ -113,7 +113,6 @@ void Object::loadModel( std::string model )
         UVs
         Normals
         */
-
         std::getline( tempStream, tempSegment, ' ');
         numberOfSlashes = getNumberOfSlashes( tempSegment );
         
@@ -136,10 +135,6 @@ void Object::loadModel( std::string model )
         {
           UVs.push_back( 0 );
         }
-        
-
-
-
         
       }
     }

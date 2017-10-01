@@ -34,6 +34,7 @@ class Object
     glm::mat4 model;
     
     std::vector<Vertex> Vertices;
+    
     std::vector<unsigned int> Indices;
     std::vector<unsigned int> UVs;
     std::vector<unsigned int> Normals;

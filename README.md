@@ -1,9 +1,9 @@
-# CS480 OpenGL Graphics Programs: MY CODE IS NOT IN HERE. IT IS IN CAYLER MILEYS REPO cs680Miley
+# CS480 OpenGL Graphics Programs: THIS REPO WILL CONTAIN ALL CODE FOR MY GROUP
 ## This is for use at the University of Nevada, Reno CS 480/680 Graphics Class
 ## This is Jacob Lee's repository. How's it going?
 
 ## MY GROUP CONTAINS TWO MEN
-# Cayler Miley cs680Miley (This should be the repo with the code)
+# Cayler Miley 
 # Austin Emery
 
 # Projects

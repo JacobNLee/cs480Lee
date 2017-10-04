@@ -37,7 +37,7 @@ If I did a horrible job with that, run it like this.
 ```
 
 The shaders are in the shader folder
-There are some cool models I made that you can try
+There are some cool models in the models folder that I made that you can try
 
 
 # PA5: ASIMP MODEL LOADING

@@ -32,14 +32,15 @@ cp ../run.sh run.sh
 ```
 If I did a horrible job with that, run it like this.
 ```bash
-./PA4 --v ../shaders/passthrough.vert --f ../shaders/passthrough.frag --m ../models/cube.obj
+./PA5 --v ../shaders/passthrough.vert --f ../shaders/passthrough.frag --m ../models/cube.obj
 
 ```
 
 The shaders are in the shader folder
+There are some cool models I made that you can try
 
 
-# PA3: Spinning Moons
+# PA5: ASIMP MODEL LOADING
 
 # Dependencies, Building, and Running
 
@@ -50,7 +51,7 @@ This project uses OpenGL 3.3. Some computers, such as virtual machines in the EC
 
 ### Ubuntu/Linux
 ```bash
-sudo apt-get install libglew-dev libglm-dev libsdl2-dev
+sudo apt-get install libglew-dev libglm-dev libsdl2-dev libassimp-dev
 ```
 
 

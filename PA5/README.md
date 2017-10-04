@@ -1,4 +1,9 @@
-### The buttons 
+### PA5 Collaborators
+Jacob Lee
+Cayler Miley
+Austin Emery
+
+### The buttons
 ```bash
 
 S : Will start and stop the rotaion 

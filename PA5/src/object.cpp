@@ -26,6 +26,10 @@ void Object::loadModel( std::string model )
   
   Assimp::Importer Importer;
   const aiScene* pScene = Importer.ReadFile(model.c_str(), aiProcess_Triangulate);
+  const aiMaterial* pMtl = pScene->mMaterials[pScene->mMeshes[0]->mMaterialIndex];
+
+  cout << pMtl->GetTextureCount(aiTextureType_DIFFUSE) << std::endl;
+
 
   int index;
   

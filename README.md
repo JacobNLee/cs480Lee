@@ -2,6 +2,9 @@
 ## This is for use at the University of Nevada, Reno CS 480/680 Graphics Class
 ## This is Jacob Lee's repository. How's it going?
 
+## MY GROUP CONTAINS TWO MEN
+# Cayler Miley cs680Miley (This should be the repo with the code)
+# Austin Emery
 
 # Projects
 

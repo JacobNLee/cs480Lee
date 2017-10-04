@@ -21,6 +21,11 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/transform.hpp>
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include <assimp/color4.h>
+
 #define INVALID_UNIFORM_LOCATION 0x7fffffff
 
 struct Vertex

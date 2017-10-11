@@ -20,4 +20,11 @@ This is a cube that rotates in place on the screen and can be changed with the k
 ## PA3: Moons
 This is a cube that rotates in place on the screen and now has a moon( a cube shaped moon). To run this project ```cd PA3``` then follow the instructions in the README.md.
 
+## PA4: Model Loading
+This project is about writing my own model loader.
 
+## PA5: Moons
+This project was to get assimp model loading to work
+
+## PA6: Moons
+This project was to get assimp/imagemagick to load and place textures. 

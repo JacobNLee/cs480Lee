@@ -14,7 +14,7 @@ class Graphics
   public:
     Graphics();
     ~Graphics();
-    bool Initialize(int width, int height, string shaders[]);
+    bool Initialize(int width, int height, string shaders[], std::string texture);
     void Update(unsigned int dt);
     void Render();
 

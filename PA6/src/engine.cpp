@@ -26,7 +26,7 @@ Engine::~Engine()
   m_graphics = NULL;
 }
 
-bool Engine::Initialize( string shaders[])
+bool Engine::Initialize( string shaders[], std::string texture)
 {
   // Start a window
   m_window = new Window();
@@ -38,7 +38,7 @@ bool Engine::Initialize( string shaders[])
 
   // Start the graphics
   m_graphics = new Graphics();
-  if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, shaders))
+  if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, shaders, texture))
   {
     printf("The graphics failed to initialize.\n");
     return false;

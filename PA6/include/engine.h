@@ -15,7 +15,7 @@ class Engine
     ~Engine();
 
     void loadModel(std::string model);
-    bool Initialize(string shaders[]);
+    bool Initialize(string shaders[], std::string texture);
     void Run();
     void Keyboard();
     unsigned int getDT();

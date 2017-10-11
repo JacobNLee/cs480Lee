@@ -49,6 +49,11 @@ Only the moon model has textures.
 
 # PA6: ASIMP TEXTURE LOADING
 
+```bash
+The object can be changed by changing the run.sh file.
+The texture is loaded from the objects .mtl file.
+```
+
 # Dependencies, Building, and Running
 
 ## Dependency Instructions

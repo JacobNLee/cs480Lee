@@ -10,7 +10,7 @@ Graphics::~Graphics()
 
 }
 
-bool Graphics::Initialize(int width, int height, string shaders[])
+bool Graphics::Initialize(int width, int height, string shaders[], std::string texture)
 {
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
@@ -121,10 +121,10 @@ bool Graphics::Initialize(int width, int height, string shaders[])
   Magick::Blob blob;
 
 
-  image.read("../models/moon.jpg");
+  image.read(texture);
   image.write(&blob, "RGBA");
 
-  cout << image.columns() << endl;
+  //cout << image.columns() << endl;
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.columns(), image.rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data() );
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

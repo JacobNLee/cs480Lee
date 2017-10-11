@@ -69,9 +69,40 @@ int main(int argc, char **argv)
   // Start an engine and run it then cleanup after
   Engine *engine = new Engine("Tutorial Window Name", 800, 600);
 
-  
+  //To grab the texture from the .mtl file
 
-  if(!engine->Initialize( shaders ))
+  size_t locationOfDot = model.find_last_of(".");
+  std::string mtlFileName = model.substr(0, locationOfDot);
+  mtlFileName.append(".mtl");
+
+  std::string texture = "../models/";
+
+  ifstream filePtr;
+  filePtr.open(mtlFileName);
+
+  if (filePtr.is_open())
+  {
+    std::string tempString;
+
+    while(filePtr >> tempString)
+    {
+      if (tempString.find("map") != std::string::npos)
+      {
+        filePtr >> tempString;
+        break;
+      }
+    }
+    texture.append(tempString);
+  }
+  else
+  {
+    std::cout << "Error loading .mtl file, Ending the program" << std::endl;
+    return 1;
+
+  }
+  filePtr.close();
+
+  if(!engine->Initialize( shaders, texture ))
   {
     printf("The engine failed to start.\n");
     delete engine;

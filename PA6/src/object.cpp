@@ -108,7 +108,7 @@ void Object::Update(unsigned int dt)
 
   origin.x = ORBIT_R * cos( angle_orbit * ORBITAL_SPEED_RATIO  );
   origin.y = ORBIT_R * sin( angle_orbit * ORBITAL_SPEED_RATIO  );
-  model = glm::scale(glm::mat4(1.0f), glm::vec3(5, 5, 5) );
+  model = glm::scale(glm::mat4(1.0f), glm::vec3(2, 2, 2) );
   model = glm::translate( model,  
                           glm::vec3(
                             origin.x,

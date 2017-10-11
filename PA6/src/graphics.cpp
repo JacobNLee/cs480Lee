@@ -112,6 +112,15 @@ bool Graphics::Initialize(int width, int height, string shaders[])
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
 
+  
+  glGenTextures(1, &aTexture);
+  glActiveTexture( GL_TEXTURE0 );
+  glBindTexture( GL_TEXTURE_2D, aTexture );
+
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
   return true;
 }
 

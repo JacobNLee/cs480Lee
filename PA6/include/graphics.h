@@ -32,6 +32,8 @@ class Graphics
     GLint m_modelMatrix;
     GLint m_modelMatrix2;
 
+    GLuint aTexture;
+
     Object *m_cube;
     
     

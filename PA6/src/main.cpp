@@ -13,7 +13,6 @@ int main(int argc, char **argv)
 {
   int index;
 
-
   string shaders[ 2 ];
   string model;
   

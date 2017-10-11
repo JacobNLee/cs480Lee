@@ -83,6 +83,7 @@ bool Shader::Finalize()
   GLint Success = 0;
   GLchar ErrorLog[1024] = { 0 };
 
+  //glBindAttribLocation(m_shaderProg, 1,"v_color");
   glLinkProgram(m_shaderProg);
 
   glGetProgramiv(m_shaderProg, GL_LINK_STATUS, &Success);

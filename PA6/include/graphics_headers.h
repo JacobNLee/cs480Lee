@@ -26,7 +26,7 @@
 #include <assimp/postprocess.h>
 #include <assimp/color4.h>
 
-#include "Magick++.h"
+#include <Magick++.h>
 
 #define INVALID_UNIFORM_LOCATION 0x7fffffff
 

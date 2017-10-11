@@ -22,11 +22,11 @@ mkdir build
 cd build
 cmake ..
 make
-./PA4 --Help
+./PA6 --Help
 ```
 running will help 
 ```bash
-./PA4 --Help
+./PA6 --Help
 ```
 
 
@@ -43,6 +43,8 @@ If I did a horrible job with that, run it like this.
 
 The shaders are in the shader folder
 There are some cool models in the models folder that I made that you can try
+
+Only the moon model has textures.
 
 
 # PA6: ASIMP TEXTURE LOADING

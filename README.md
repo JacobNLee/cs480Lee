@@ -23,8 +23,8 @@ This is a cube that rotates in place on the screen and now has a moon( a cube sh
 ## PA4: Model Loading
 This project is about writing my own model loader.
 
-## PA5: Moons
+## PA5: Assimp Model Loading 
 This project was to get assimp model loading to work
 
-## PA6: Moons
+## PA6: Assimp Texture Loading 
 This project was to get assimp/imagemagick to load and place textures. 

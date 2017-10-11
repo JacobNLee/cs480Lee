@@ -117,7 +117,15 @@ bool Graphics::Initialize(int width, int height, string shaders[])
   glActiveTexture( GL_TEXTURE0 );
   glBindTexture( GL_TEXTURE_2D, aTexture );
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+  Magick::Image image;
+  Magick::Blob blob;
+
+
+  image.read("../models/moon.jpg");
+  image.write(&blob, "RGBA");
+
+  cout << image.columns() << endl;
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.columns(), image.rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data() );
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 

@@ -29,22 +29,25 @@ void Object::loadModel( std::string model )
   const aiScene* pScene = Importer.ReadFile(model.c_str(), aiProcess_Triangulate);
   const aiMaterial* pMtl = pScene->mMaterials[pScene->mMeshes[0]->mMaterialIndex];
 
-  cout << pMtl->GetTextureCount(aiTextureType_DIFFUSE) << std::endl;
 
 
   int index;
   
-  cout << pScene->mMeshes[0]->HasTextureCoords(0) << endl;
 
     for (index = 0 ; index < pScene->mMeshes[0]->mNumVertices ; index++) 
     {   
+      aiVector3D uv = pScene->mMeshes[0]->mTextureCoords[0][ index ];
+
+      
+
         Vertices.push_back( 
           {
             {pScene->mMeshes[0]->mVertices[index].x,pScene->mMeshes[0]->mVertices[index].y,pScene->mMeshes[0]->mVertices[index].z},
-            {0,0}
+            {uv.x,uv.y}
           });
     }
 
+  int i = 0;
   for( index = 0; index < pScene->mMeshes[0]->mNumFaces; index++)
   {
     const aiFace face = pScene->mMeshes[0]->mFaces[index];
@@ -52,6 +55,7 @@ void Object::loadModel( std::string model )
     Indices.push_back( face.mIndices[1] );
     Indices.push_back( face.mIndices[2] );
   
+    
 
   }
   
@@ -104,13 +108,15 @@ void Object::Update(unsigned int dt)
 
   origin.x = ORBIT_R * cos( angle_orbit * ORBITAL_SPEED_RATIO  );
   origin.y = ORBIT_R * sin( angle_orbit * ORBITAL_SPEED_RATIO  );
-  model = glm::translate( glm::mat4(1.0f),  
+  model = glm::scale(glm::mat4(1.0f), glm::vec3(5, 5, 5) );
+  model = glm::translate( model,  
                           glm::vec3(
                             origin.x,
                             0.0,
                             origin.y));
                             
   model = glm::rotate(model, (angle_rot), glm::vec3(0.0, 1.0, 0.0));
+
   
   
   

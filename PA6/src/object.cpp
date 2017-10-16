@@ -43,7 +43,7 @@ void Object::loadModel( std::string model )
         Vertices.push_back( 
           {
             {pScene->mMeshes[0]->mVertices[index].x,pScene->mMeshes[0]->mVertices[index].y,pScene->mMeshes[0]->mVertices[index].z},
-            {uv.x,uv.y}
+            {uv.x,1.0 - uv.y}
           });
     }
 

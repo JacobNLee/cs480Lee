@@ -59,6 +59,7 @@ void Engine::Run()
   {
     // Update the DT
     m_DT = getDT();
+    cout << m_DT << endl;
 
     // Check the keyboard input
     while(SDL_PollEvent(&m_event) != 0)

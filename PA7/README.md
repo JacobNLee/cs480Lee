@@ -6,11 +6,12 @@ Austin Emery
 ### The buttons
 ```bash
 
-S : Will start and stop the rotaion 
-Right Click: Will reverse and resume the rotaion
-Left Arrow Key: Will set the planet to counterclockwise rotaion
-Right Arrow Key: Will set the planet to clockwise rotation.
+Left + right arrow will cycle planets
+- will slow the sim
++ will speed
 
+c will give a close top view 
+v will give a fare top view
 
 ESC : Will end the program
 ```

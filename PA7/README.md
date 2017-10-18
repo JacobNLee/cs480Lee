@@ -11,7 +11,7 @@ Left + right arrow will cycle planets
 + will speed
 
 c will give a close top view 
-v will give a fare top view
+v will give a far top view
 
 ESC : Will end the program
 ```

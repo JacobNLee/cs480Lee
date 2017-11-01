@@ -1,77 +1,10 @@
 #include "object.h"
-#include <iostream>
-#include <sstream>
-#include <stdlib.h>  
 
-#define ORBITAL_SPEED_RATIO .1
-#define ORBIT_R 0
-
-using namespace std;
-
-Object::Object()
-{  
-
-  angle_orbit = 0.0f;
-  angle_rot = 0.0f;
-
-  orbit_rev = false;
-  rot_rev = false;
-  orbit_stop = false;
-  rot_stop = false;
-
-}
-
-void Object::loadModel( std::string model )
+Object::Object(std::string objectName, btTriangleMesh* objTriMesh)
 {
-  
-  
-  Assimp::Importer Importer;
-  const aiScene* pScene = Importer.ReadFile(model.c_str(), aiProcess_Triangulate);
-  const aiMaterial* pMtl = pScene->mMaterials[pScene->mMeshes[0]->mMaterialIndex];
-
-
-
-  int index;
-  
-
-    for (index = 0 ; index < pScene->mMeshes[0]->mNumVertices ; index++) 
-    {   
-      aiVector3D uv = pScene->mMeshes[0]->mTextureCoords[0][ index ];
-
-      
-
-        Vertices.push_back( 
-          {
-            {pScene->mMeshes[0]->mVertices[index].x,pScene->mMeshes[0]->mVertices[index].y,pScene->mMeshes[0]->mVertices[index].z},
-            {uv.x,1.0 - uv.y}
-          });
-    }
-
-  int i = 0;
-  for( index = 0; index < pScene->mMeshes[0]->mNumFaces; index++)
-  {
-    const aiFace face = pScene->mMeshes[0]->mFaces[index];
-    Indices.push_back( face.mIndices[0] );
-    Indices.push_back( face.mIndices[1] );
-    Indices.push_back( face.mIndices[2] );
-  
-    
-
-  }
-  
-  glGenBuffers(1, &VB);
-  glBindBuffer(GL_ARRAY_BUFFER, VB);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
-
-  
-  glGenBuffers(1, &IB);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
-  
-
-  
+  configRead(objectName);
+  loadModel(objTriMesh);
 }
-
 
 Object::~Object()
 {
@@ -79,47 +12,9 @@ Object::~Object()
   Indices.clear();
 }
 
-void Object::Update(unsigned int dt)
+void Object::Update(unsigned int dt, glm::mat4 m)
 {
-  
-  if( !orbit_stop )
-  {
-    if( !orbit_rev )
-    {
-      angle_orbit += dt * M_PI/1000;
-    }
-    else
-    {
-      angle_orbit -= dt * M_PI/1000;
-    }
-  }
-
-  if( !rot_stop )
-  {
-    if( !rot_rev )
-    {
-      angle_rot += dt * M_PI/4000;
-    }
-    else
-    {
-      angle_rot -= dt * M_PI/4000;
-    }
-  }
-
-  origin.x = ORBIT_R * cos( angle_orbit * ORBITAL_SPEED_RATIO  );
-  origin.y = ORBIT_R * sin( angle_orbit * ORBITAL_SPEED_RATIO  );
-  model = glm::scale(glm::mat4(1.0f), glm::vec3(1, 1, 1) );
-  model = glm::translate( model,  
-                          glm::vec3(
-                            origin.x,
-                            0.0,
-                            origin.y));
-                            
-  model = glm::rotate(model, (angle_rot), glm::vec3(0.0, 1.0, 0.0));
-
-  
-  
-  
+  model = m;
 }
 
 glm::mat4 Object::GetModel()
@@ -128,8 +23,7 @@ glm::mat4 Object::GetModel()
 }
 
 void Object::Render()
-{ 
-  
+{
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
 
@@ -139,105 +33,122 @@ void Object::Render()
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.columns(), image.rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data() );
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
   glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
+}
+
+void Object::configRead(std::string objectName)
+{
+	std::ifstream configFile;
+	std::string tempString = "";
+	std::string tempModelName = "../objects/";
+	std::string tempTextureName = "../textures/";
+
+	configFile.open("../config/config.txt");
+
+	if (configFile.is_open())
+	{
+		while(configFile >> tempString)
+		{
+			if (tempString == "objName")
+			{
+				configFile >> tempString;
+				if (tempString == objectName)
+				{
+					//std::cout << tempString << std::endl;
+					configFile >> tempString;
+					if (tempString == "objFileName")
+					{
+						configFile >> tempString;
+						tempModelName.append(tempString);
+						modelName = tempModelName;
+					}
+					//std::cout << tempString << std::endl;
+					configFile >> tempString;
+					if (tempString == "objTextureName")
+					{
+						configFile >> tempString;
+						tempTextureName.append(tempString);
+						textureName = tempTextureName;
+					}
+					//std::cout << tempString << std::endl;
+				}
+			}
+		}
+	}
+	else
+	{
+		std::printf("Error, could not open config file!\nMake sure there is a config file in the config folder!\n");
+		exit(EXIT_FAILURE);
+	}
+	configFile.close();
+}
+
+void Object::loadModel(btTriangleMesh* objTriMesh)
+{
+  Assimp::Importer Importer;
+
+  btVector3 triArray[3];
+
+  const aiScene* pScene = Importer.ReadFile(modelName.c_str(), aiProcess_Triangulate);
+  const aiMaterial* pMtl = pScene->mMaterials[pScene->mMeshes[0]->mMaterialIndex];
   
-}
+  for (int index = 0; index < pScene->mMeshes[0]->mNumVertices; index++) 
+  {   
+    aiVector3D uv = pScene->mMeshes[0]->mTextureCoords[0][ index ];
 
-void Object::invertOrbitRev()
-{
-  if( orbit_rev == 0 )
-      {
-        orbit_rev = 1;
-      }
-      else
-      {
-        orbit_rev = 0;
-      }
-}
+	  Vertices.push_back( 
+	    {
+	      {pScene->mMeshes[0]->mVertices[index].x,pScene->mMeshes[0]->mVertices[index].y,pScene->mMeshes[0]->mVertices[index].z},
+	      {uv.x,1 - uv.y}
+	    });
 
-void Object::invertOrbitStop()
-{
-  if( orbit_stop == 0 )
-      {
-        orbit_stop = 1;
-      }
-      else
-      {
-        orbit_stop = 0;
-      }
-}
-
-void Object::invertRotRev()
-{
-  if( rot_rev == 0 )
-      {
-        rot_rev = 1;
-      }
-      else
-      {
-        rot_rev = 0;
-      }
-}
-
-void Object::invertRotStop()
-{
-  if( rot_stop == 0 )
-      {
-        rot_stop = 1;
-      }
-      else
-      {
-        rot_stop = 0;
-      }
-}
-
-glm::vec2 Object::getOrigin()
-{
-  return origin;
-}
-
-void Object::rotateLeft()
-{
-  rot_rev = false;
-}
-
-void Object::rotateRight()
-{
-  rot_rev = true;
-}
-
-int Object::getNumberOfSlashes( std::string inString )
-{
-  int index, counter;
-
-  for( index = counter = 0; index < inString.size(); ++index )
-  {
-    if( inString[ index ] == '/' )
-    {
-      counter++;
-    }
   }
 
-  return counter;
+  for(int index = 0; index < pScene->mMeshes[0]->mNumFaces; index++)
+  {
+    const aiFace face = pScene->mMeshes[0]->mFaces[index];
+    for (int jindex = 0; jindex < 3; jindex++)
+    {
+    	aiVector3D position = pScene->mMeshes[0]->mVertices[face.mIndices[jindex]];
+    	triArray[jindex] = btVector3(position.x, position.y, position.z);
+    	Indices.push_back( face.mIndices[jindex] );
+    }
+    objTriMesh->addTriangle(triArray[0], triArray[1], triArray[2]);
+  }
+
+  glGenBuffers(1, &VB);
+  glBindBuffer(GL_ARRAY_BUFFER, VB);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
+  
+  glGenBuffers(1, &IB);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
+  
+  glGenTextures(1, &aTexture);
+  glActiveTexture( GL_TEXTURE0 );
+  glBindTexture( GL_TEXTURE_2D, aTexture ); 
+
+  image.read(textureName);
+  image.write(&blob, "RGBA");
 }
 
-int Object::getNumber( std::string &inString )
+void Object::copyPlanetValues(Object* originObj)
 {
-  std::string temp;
-  int index = 0;
-  while( 1 )
-  {
-    if( inString.size() == index || inString[ index ] == '/' )
-    {
-      std::string newString(  inString.begin() + index + 1, inString.end() + 1);
-      //cout << newString << ' ';
-      inString = newString;
-      return atoi( temp.c_str() );
-    }
-    temp.push_back( inString[ index ]);
-    index++;
-  }
+  p_rotationValue = originObj->p_rotationValue;
+  p_orbitValue = originObj->p_orbitValue;
+}
+
+void Object::updatePhysics()
+{
+	//dynamicsWorld->stepSimulation(getDT(), 10); 
+	//boardRigidBody->getMotionState()->getWorldTransform(trans);
+	//trans.getOpenGLMatrix(m); 
+	//model = glm::make_mat4(m);
 }

@@ -2,59 +2,46 @@
 #define OBJECT_H
 
 #include <vector>
+#include <string>
+#include <fstream>
 #include "graphics_headers.h"
 
 class Object
 {
   public:
-    Object();
+    Object(std::string, btTriangleMesh*);
     ~Object();
-    void Update(unsigned int dt);
+    void Update(unsigned int dt, glm::mat4);
     void Render();
-
-    void loadModel( std::string model );
-
-    void invertOrbitRev();
-    void invertOrbitStop();
-    void invertRotRev();
-    void invertRotStop();
-
-    void rotateLeft();
-    void rotateRight();
-
-    glm::vec2 getOrigin();
-    
-    
+    void configRead(std::string);
+    void copyPlanetValues(Object*);
+    void loadModel(btTriangleMesh*);
+    void updatePhysics();
 
     glm::mat4 GetModel();
 
-
-
   private:
     glm::mat4 model;
-    
     std::vector<Vertex> Vertices;
-    
+    std::vector<glm::vec2> uvs;
+    std::vector<glm::vec3> normals;
     std::vector<unsigned int> Indices;
-    std::vector<unsigned int> UVs;
-    std::vector<unsigned int> Normals;
-
     GLuint VB;
+    GLuint aTexture;
     GLuint IB;
 
+    float angle;
+    float p_rotationValue;
+    float p_orbitValue;
 
-    float angle_orbit;
-    float angle_rot; 
+    float m_rotationValue;
+    float m_orbitValue;
 
-    bool orbit_rev;
-    bool rot_rev;
-    bool orbit_stop;
-    bool rot_stop;
+    std::string textureName;
+    std::string modelName;
 
-    glm::vec2 origin;
-
-    int getNumberOfSlashes( std::string inString );
-    int getNumber( std::string &inString );
+    Magick::Image image;
+    Magick::Blob blob;
 };
 
 #endif /* OBJECT_H */

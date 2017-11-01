@@ -6,6 +6,7 @@
 
 #include "window.h"
 #include "graphics.h"
+#include "camera.h"
 
 class Engine
 {
@@ -13,15 +14,12 @@ class Engine
     Engine(string name, int width, int height);
     Engine(string name);
     ~Engine();
-
-    void loadModel(std::string model);
-    bool Initialize(string shaders[], std::string texture);
+    bool Initialize();
     void Run();
-    void Keyboard();
+    void Keyboard(float&, float&, float&, float&);
     unsigned int getDT();
     long long GetCurrentTimeMillis();
   
-    Graphics *m_graphics;
   private:
     // Window related variables
     Window *m_window;    
@@ -31,10 +29,15 @@ class Engine
     bool m_FULLSCREEN;
     SDL_Event m_event;
 
-    
+    Graphics *m_graphics;
     unsigned int m_DT;
     long long m_currentTimeMillis;
     bool m_running;
+
+    float rotation;
+    float zoom;
+    float velocityX;
+    float velocityZ;
 };
 
 #endif // ENGINE_H

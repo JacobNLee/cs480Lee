@@ -32,13 +32,11 @@ bool Shader::Initialize()
   return true;
 }
 
-
 // Use this method to add shaders to the program. When finished - call finalize()
-bool Shader::AddShader( std::string shader, GLenum ShaderType)
+bool Shader::AddShader(GLenum ShaderType)
 {
   std::string s;
-
-  s = shader;
+  s = LoadShader(ShaderType);
 
   GLuint ShaderObj = glCreateShader(ShaderType);
 
@@ -75,6 +73,58 @@ bool Shader::AddShader( std::string shader, GLenum ShaderType)
   return true;
 }
 
+//Function to load the shaders from a file. 
+//Called in AddShader()
+std::string Shader::LoadShader(GLenum ShaderType)
+{
+  std::string s;
+  std::string line = "";
+
+  if(ShaderType == GL_VERTEX_SHADER)
+  {
+    std::ifstream myFile;
+    myFile.open("../shaders/vShader.vert");
+
+    if (myFile.is_open())
+    {
+      while(std::getline(myFile, line))
+      {
+        s.append(line);
+        s.append("\n");
+      }
+    }
+    else
+    {
+      printf("Unable to open Vertex Shader File\n");
+      return 0;
+    }
+
+    myFile.close();
+  }
+  else if(ShaderType == GL_FRAGMENT_SHADER)
+  {
+    std::ifstream myFile;
+    myFile.open("../shaders/fShader.frag");
+
+    if (myFile.is_open())
+    {
+      while(std::getline(myFile, line))
+      {
+        s.append(line);
+        s.append("\n");
+      }
+    }
+    else
+    {
+      printf("Unable to open Fragment Shader File\n");
+      return 0;
+    }
+
+    myFile.close();
+  }
+
+  return s;
+}
 
 // After all the shaders have been added to the program call this function
 // to link and validate the program.
@@ -83,7 +133,6 @@ bool Shader::Finalize()
   GLint Success = 0;
   GLchar ErrorLog[1024] = { 0 };
 
-  //glBindAttribLocation(m_shaderProg, 1,"v_color");
   glLinkProgram(m_shaderProg);
 
   glGetProgramiv(m_shaderProg, GL_LINK_STATUS, &Success);

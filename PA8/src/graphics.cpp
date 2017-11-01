@@ -1,5 +1,7 @@
 #include "graphics.h"
 
+using namespace std;
+
 Graphics::Graphics()
 {
 
@@ -10,7 +12,7 @@ Graphics::~Graphics()
 
 }
 
-bool Graphics::Initialize(int width, int height, string shaders[], std::string texture)
+bool Graphics::Initialize(int width, int height)
 {
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
@@ -37,16 +39,63 @@ bool Graphics::Initialize(int width, int height, string shaders[], std::string t
   glBindVertexArray(vao);
 
   // Init Camera
-  m_camera = new MyCamera();
+  m_camera = new Camera();
   if(!m_camera->Initialize(width, height))
   {
     printf("Camera Failed to Initialize\n");
     return false;
   }
 
-  // Create the object
-  m_cube = new Object();
-  
+  //For physics
+  m_physics = new Physics();
+  if(!m_physics->Initialize())
+  {
+    printf("Physics Failed to Initialize\n");
+    return false;
+  }
+
+  btTriangleMesh* objTriMesh = new btTriangleMesh();
+
+  // Create the objects
+  objTriMesh = new btTriangleMesh();
+
+  planet_1 = new Object("earth", objTriMesh);
+  btCollisionShape *sphereShape = new btConvexTriangleMeshShape(objTriMesh, true); 
+  btDefaultMotionState* ballMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(3, 10, 0)));
+  m_physics->addObject(sphereShape, ballMotionState, 1);
+
+  //Second Object
+  objTriMesh = new btTriangleMesh();
+
+  moon_1 = new Object("earth", objTriMesh);
+  btDefaultMotionState* secondBallMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-4.5, 25, 0)));
+  m_physics->addObject(sphereShape, secondBallMotionState, 1);
+
+  //cout << objTriMesh[0] <<
+
+  //Add the Cube
+  objTriMesh = new btTriangleMesh();
+
+  cube_1 = new Object("cube", objTriMesh);
+  btCollisionShape *cubeShape = new btConvexTriangleMeshShape(objTriMesh, true);
+  btDefaultMotionState *cubeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(-5, 10, -5)));
+  m_physics->addObject(cubeShape, cubeMotionState, 1);
+
+  //Add the cylinder
+  objTriMesh = new btTriangleMesh();
+
+  cylinder_1 = new Object("cylinder", objTriMesh);
+  btCollisionShape *cylinderShape = new btBvhTriangleMeshShape(objTriMesh, true);
+  btDefaultMotionState *cylinderMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(5, 1, 0)));
+  m_physics->addObject(cylinderShape, cylinderMotionState, 0);
+
+  objTriMesh = new btTriangleMesh();
+
+  //The Table
+  ground_1 = new Object("table", objTriMesh);
+  btCollisionShape *tableShape = new btBvhTriangleMeshShape(objTriMesh, true);
+  btDefaultMotionState* tableMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+  m_physics->addObject(tableShape, tableMotionState, 0);
 
   // Set up the shaders
   m_shader = new Shader();
@@ -57,14 +106,14 @@ bool Graphics::Initialize(int width, int height, string shaders[], std::string t
   }
 
   // Add the vertex shader
-  if(!m_shader->AddShader( shaders[ 0 ], GL_VERTEX_SHADER))
+  if(!m_shader->AddShader(GL_VERTEX_SHADER))
   {
     printf("Vertex Shader failed to Initialize\n");
     return false;
   }
 
   // Add the fragment shader
-  if(!m_shader->AddShader( shaders[ 1 ], GL_FRAGMENT_SHADER))
+  if(!m_shader->AddShader(GL_FRAGMENT_SHADER))
   {
     printf("Fragment Shader failed to Initialize\n");
     return false;
@@ -78,6 +127,7 @@ bool Graphics::Initialize(int width, int height, string shaders[], std::string t
   }
 
   // Locate the projection matrix in the shader
+  
   m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
   if (m_projectionMatrix == INVALID_UNIFORM_LOCATION) 
   {
@@ -101,49 +151,67 @@ bool Graphics::Initialize(int width, int height, string shaders[], std::string t
     return false;
   }
 
-  m_modelMatrix2 = m_shader->GetUniformLocation("modelMatrix");
-  if (m_modelMatrix2 == INVALID_UNIFORM_LOCATION) 
+////////////////////////////////////////////////////////////////////////////////
+  // Locate the projection matrix in the shader
+  /*
+  p_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
+  if (p_projectionMatrix == INVALID_UNIFORM_LOCATION) 
   {
-    printf("m_modelMatrix not found\n");
+    printf("p_projectionMatrix not found\n");
     return false;
   }
+
+  // Locate the view matrix in the shader
+  p_viewMatrix = m_shader->GetUniformLocation("viewMatrix");
+  if (p_viewMatrix == INVALID_UNIFORM_LOCATION) 
+  {
+    printf("p_viewMatrix not found\n");
+    return false;
+  }
+
+  // Locate the model matrix in the shader
+  p_modelMatrix = m_shader->GetUniformLocation("modelMatrix");
+  if (p_modelMatrix == INVALID_UNIFORM_LOCATION) 
+  {
+    printf("p_modelMatrix not found\n");
+    return false;
+  }
+  */
+//////////////////////////////////////////////////////////////////////////////////
 
   //enable depth testing
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
-
-  
-  glGenTextures(1, &aTexture);
-  glActiveTexture( GL_TEXTURE0 );
-  glBindTexture( GL_TEXTURE_2D, aTexture );
-
-  Magick::Image image;
-  Magick::Blob blob;
-
-
-  image.read(texture);
-  image.write(&blob, "RGBA");
-
-  //cout << image.columns() << endl;
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.columns(), image.rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data() );
-  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
   return true;
 }
 
 void Graphics::Update(unsigned int dt)
 {
-  // Update the object
-  m_cube->Update(dt);
+  glm::mat4 temp;
 
+  //Update the physics
+
+  //update the spheres
+  temp = m_physics->Update(dt, 0);
+  planet_1->Update(dt, temp);
   
+  temp = m_physics->Update(dt, 1);
+  moon_1->Update(dt, temp);
+
+  //update the cube
+  temp = m_physics->Update(dt, 2);
+  cube_1->Update(dt, temp);
+
+  //update the cylinder
+  temp = m_physics->Update(dt, 3);
+  cylinder_1->Update(dt, temp);
 }
 
 void Graphics::Render()
 {
   //clear the screen
-  glClearColor(0.0, 0.0, 0.2, 1.0);
+  glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // Start the correct program
@@ -153,13 +221,23 @@ void Graphics::Render()
   glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
-  // Render the object
-  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_cube->GetModel()));
+/////////////////////////////////////////////////////////////////////////
 
-  m_cube->Render();
+  // Render the objects
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(ground_1->GetModel()));
+  ground_1->Render();
 
-  
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(planet_1->GetModel()));
+  planet_1->Render();
 
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(moon_1->GetModel()));
+  moon_1->Render();
+
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(cube_1->GetModel()));
+  cube_1->Render();
+
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(cylinder_1->GetModel()));
+  cylinder_1->Render();
 
   // Get any errors from OpenGL
   auto error = glGetError();
@@ -202,8 +280,12 @@ std::string Graphics::ErrorString(GLenum error)
   }
 }
 
-
-Object* Graphics::getCube()
+Camera* Graphics::getCamera()
 {
-  return m_cube;
+  return m_camera;
+}
+
+Physics* Graphics::getPhysics()
+{
+  return m_physics;
 }

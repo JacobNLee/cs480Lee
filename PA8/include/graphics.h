@@ -5,8 +5,9 @@
 using namespace std;
 
 #include "graphics_headers.h"
-#include "mycamera.h"
+#include "camera.h"
 #include "shader.h"
+#include "physics.h"
 #include "object.h"
 
 class Graphics
@@ -14,31 +15,28 @@ class Graphics
   public:
     Graphics();
     ~Graphics();
-    bool Initialize(int width, int height, string shaders[], std::string texture);
+    bool Initialize(int width, int height);
     void Update(unsigned int dt);
     void Render();
+    Camera* getCamera();
+    Physics* getPhysics();
 
-    Object* getCube();
-
-    
   private:
     std::string ErrorString(GLenum error);
 
-    MyCamera *m_camera;
+    Camera *m_camera;
     Shader *m_shader;
+    Physics *m_physics;
 
     GLint m_projectionMatrix;
     GLint m_viewMatrix;
     GLint m_modelMatrix;
-    GLint m_modelMatrix2;
 
-    GLuint aTexture;
-
-    Object *m_cube;
-    
-    
-
-    
+    Object *planet_1;
+    Object *moon_1;
+    Object *cube_1;
+    Object *cylinder_1;
+    Object *ground_1;
 };
 
 #endif /* GRAPHICS_H */

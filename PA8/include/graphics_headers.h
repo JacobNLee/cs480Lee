@@ -19,7 +19,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/rotate_vector.hpp>
-#include <glm/gtx/transform.hpp>
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -28,6 +27,8 @@
 #include <assimp/vector3.h>
 
 #include <Magick++.h>
+
+#include <SDL2/SDL.h>
 
 #include <btBulletDynamicsCommon.h>
 
